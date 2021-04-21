@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.tekup.de/loan/soap/ws/loanEligebilty" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.tekup.de/loan/soap/ws/loanEligebilty" targetNamespace="http://www.tekup.de/loan/soap/ws/loanEligebilty">
+  <wsdl:types>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.tekup.de/loan/soap/ws/loanEligebilty">
+	<!-- Request Object  -->
+	<xsd:element name="CustomerRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="customerName" type="xsd:string"/>
+				<xsd:element name="age" type="xsd:int"/>
+				<xsd:element name="yearlyIncome" type="xsd:long"/>
+				<xsd:element name="cibilScore" type="xsd:int"/>
+				<xsd:element name="employmentMode" type="xsd:string"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<!-- Response Object  -->
+	<xsd:element name="WsResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="isEligeble" type="xsd:boolean"/>
+				<xsd:element name="approvedAmount" type="xsd:long"/>
+				<xsd:element maxOccurs="unbounded" name="criteriaMismatch" type="xsd:string"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="CustomerRequest">
+    <wsdl:part element="tns:CustomerRequest" name="CustomerRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="WsResponse">
+    <wsdl:part element="tns:WsResponse" name="WsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="LoanEligeblityIndicator">
+    <wsdl:operation name="Customer">
+      <wsdl:input message="tns:CustomerRequest" name="CustomerRequest">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Ws">
+      <wsdl:output message="tns:WsResponse" name="WsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LoanEligeblityIndicatorSoap11" type="tns:LoanEligeblityIndicator">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="Customer">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="CustomerRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Ws">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="WsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LoanEligeblityIndicatorService">
+    <wsdl:port binding="tns:LoanEligeblityIndicatorSoap11" name="LoanEligeblityIndicatorSoap11">
+      <soap:address location="http://localhost:8080/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
